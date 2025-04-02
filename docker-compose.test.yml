@@ -1,0 +1,33 @@
+services:
+  server:
+    build: ./server
+    container_name: server
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV=test
+      - DATABASE_URL=postgres://chat_app:c8f7e6d4b9a21c3f88e1f4a6d7b5c2e0@postgres:5432/chat_app_test
+    volumes:
+      - ./server:/app
+    working_dir: /app
+    command: >
+      sh -c "cd src && npx sequelize db:migrate"
+    env_file:
+      - .env  
+
+  postgres:
+    image: postgres:15
+    container_name: postgres_test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_test_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=chat_app
+      - POSTGRES_PASSWORD=c8f7e6d4b9a21c3f88e1f4a6d7b5c2e0
+      - POSTGRES_DB=chat_app_test
+
+volumes:
+  pg_test_data:

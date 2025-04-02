@@ -21,12 +21,10 @@ const corsOptions = {
 };
 
 const io = socketIo(server, {
-  cors:corsOptions,
+  cors: corsOptions,
 });
 
-app.use(
-  cors(corsOptions)
-);
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.send("server is running..");
@@ -35,8 +33,6 @@ app.use("/auth", authRoutes);
 app.use("/messages", messageRoutes);
 
 io.on("connection", (socket) => {
-  console.log("New client connected");
-
   socket.on("join", (receiverId) => {
     socket.join(receiverId?.toString());
   });
@@ -65,6 +61,11 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+if (process.env.NODE_ENV !== "test") {
+  server.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = { server, app };

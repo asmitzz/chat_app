@@ -10,4 +10,4 @@ COPY . .
 COPY .env .env
 
 EXPOSE 8000
-CMD ["sh", "-c", "cd src && npx sequelize db:migrate && cd .. && yarn start"]
+# CMD ["sh", "-c", "cd src && npx sequelize db:migrate && cd .. && yarn start"]
