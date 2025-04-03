@@ -182,24 +182,7 @@ This document describes the high-level architecture, design considerations, and 
 
 ## 2. Architecture Diagram
 
-```plaintext
-          +----------------------+
-          |      React UI        |
-          |    (Frontend)        |
-          +----------+-----------+
-                     |
-                     v
-          +----------------------+
-          |    Node.js API       |
-          |    (Backend)         |
-          +----------+-----------+
-                     |
-                     v
-          +----------------------+
-          |   PostgreSQL DB      |
-          |   (Database)         |
-          +----------------------+
-```
+<img width="682" alt="Screenshot 2025-04-03 at 6 11 53 PM" src="https://github.com/user-attachments/assets/8b7a9073-dd84-42e6-b510-475f6f8b1e07" />
 
 ## 3. Technologies and Frameworks  
 
