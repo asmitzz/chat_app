@@ -16,10 +16,6 @@ exports.getMessages = async (req, res) => {
   try {
     const { senderId, receiverId } = req.query;
 
-    if (!senderId || !receiverId) {
-      return res.status(400).json({ message: "Sender and receiver IDs are required." });
-    }
-
     const messages = await Message.findAll({
       where: {
         [Op.or]: [

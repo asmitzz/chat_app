@@ -4,10 +4,19 @@ const {
   getMessages,
 } = require("../controllers/messageController");
 const authenticateUser = require("../middlewares/authenticateUser");
+const {
+  sendMessageValidationRules,
+  messageHistoryValidationRules,
+} = require("../validators/messageValidator");
 
 const router = express.Router();
 
-router.post("/send", authenticateUser, sendMessage);
-router.get("/history", authenticateUser, getMessages);
+router.post("/send", authenticateUser, sendMessageValidationRules, sendMessage);
+router.get(
+  "/history",
+  authenticateUser,
+  messageHistoryValidationRules,
+  getMessages
+);
 
 module.exports = router;
