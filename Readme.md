@@ -56,7 +56,7 @@ Update `config/config.json` file in the server directory and define the required
     "username": "chat_app",
     "password": "c8f7e6d4b9a21c3f88e1f4a6d7b5c2e0",
     "database": "chat_app_test",
-    "host": "localhost",
+    "host": "postgres",
     "dialect": "postgres",
     "port": "5432"
   }
@@ -123,7 +123,30 @@ docker-compose -f docker-compose.test.yml up -d
 
 This will spin up the necessary test containers.
 
-### Step 3: Run Tests
+### Step 3: Update host from postgres to localhost in `config/config.json` file in the server directory and define the required variables for connecting with postgres using sequelize:
+
+```config/config.json
+{
+  "development": {
+    "username": "chat_app",
+    "password": "c8f7e6d4b9a21c3f88e1f4a6d7b5c2e0",
+    "database": "chat_app",
+    "host": "postgres",
+    "dialect": "postgres",
+    "port": "5432"
+  },
+  "test": {
+    "username": "chat_app",
+    "password": "c8f7e6d4b9a21c3f88e1f4a6d7b5c2e0",
+    "database": "chat_app_test",
+    "host": "localhost", // NOTE: Update host to localhost from postgres after #Step 2
+    "dialect": "postgres",
+    "port": "5432"
+  }
+}
+```
+
+### Step 4: Run Tests
 
 Execute the test cases using Yarn:
 
@@ -133,6 +156,7 @@ yarn run test
 
 ### Additional Notes
 - Make sure Docker is installed and running before executing the commands.
+- Update `host` to `localhost` from `postgres` in the `server/` directory only after `STEP-2` is completed 
 - If you need to stop the test containers after running tests, use:
   
   ```sh
