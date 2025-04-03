@@ -12,6 +12,7 @@ const Home = ({ user }) => {
 
   const handleLogout = async () => {
     await post(`${BASE_URL}/auth/logout`);
+    localStorage.setItem("isUserLoggedIn",false)
     navigate("/login");
   };
 
