@@ -78,8 +78,8 @@ const Auth = ({ setUser }) => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="auth-input"
-          minLength={4}
-          required
+          // minLength={4}
+          // required
         />
         <div className="auth-input-wrapper">
           <input
@@ -89,7 +89,7 @@ const Auth = ({ setUser }) => {
             minLength={6}
             onChange={(e) => setPassword(e.target.value)}
             className="auth-input"
-            required
+            // required
           />
           <span className="eye-icon" onClick={togglePasswordVisibility}>
             {showPassword ? "hide" : "show"}

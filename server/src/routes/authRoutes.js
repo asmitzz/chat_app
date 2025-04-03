@@ -11,11 +11,12 @@ const {
   loginValidationRules,
   registerValidationRules,
 } = require("../validators/authValidator");
+const validateRequest = require("../middlewares/validateRequest");
 
 const router = express.Router();
 
-router.post("/register", registerValidationRules, register);
-router.post("/login", loginValidationRules, login);
+router.post("/register", registerValidationRules, validateRequest, register);
+router.post("/login", loginValidationRules, validateRequest, login);
 router.post("/logout", logout);
 router.get("/contacts", authenticateUser, contacts);
 router.get("/authenticate", authenticateUser, authenticate);

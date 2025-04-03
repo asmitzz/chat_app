@@ -8,14 +8,22 @@ const {
   sendMessageValidationRules,
   messageHistoryValidationRules,
 } = require("../validators/messageValidator");
+const validateRequest = require("../middlewares/validateRequest");
 
 const router = express.Router();
 
-router.post("/send", authenticateUser, sendMessageValidationRules, sendMessage);
+router.post(
+  "/send",
+  authenticateUser,
+  sendMessageValidationRules,
+  validateRequest,
+  sendMessage
+);
 router.get(
   "/history",
   authenticateUser,
   messageHistoryValidationRules,
+  validateRequest,
   getMessages
 );
 
