@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, query } = require("express-validator");
 
 const sendMessageValidationRules = [
   body("senderId").notEmpty().withMessage("Sender ID is required"),
@@ -7,8 +7,8 @@ const sendMessageValidationRules = [
 ];
 
 const messageHistoryValidationRules = [
-  body("senderId").notEmpty().withMessage("Sender ID is required"),
-  body("receiverId").notEmpty().withMessage("Receiver ID is required"),
+  query("senderId").notEmpty().withMessage("Sender ID is required"),
+  query("receiverId").notEmpty().withMessage("Receiver ID is required"),
 ];
 
 module.exports = {
