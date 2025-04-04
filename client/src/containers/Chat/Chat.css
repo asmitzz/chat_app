@@ -1,8 +1,7 @@
 /* Container for the entire chat */
  .chat-container {
-    width: 100%;
+    width: 90%;
     height: 100%;
-    margin: 0 auto;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

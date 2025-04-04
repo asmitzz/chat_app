@@ -1,5 +1,5 @@
 .home{
-    margin: 4rem 0;
+    margin: 4rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,6 +10,7 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     height: 70vh;
+    margin: 0 5rem;
   }
 
   .logout-btn {
@@ -31,3 +32,12 @@
   .logout-btn:active {
     background-color: #b71c1c; 
   }
+
+@media (max-width: 768px) {
+  .contacts-section {
+    grid-template-columns: 1fr;
+    height: auto;
+    margin: 0;
+    margin-bottom: 7rem;
+  }
+}

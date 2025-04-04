@@ -1,5 +1,5 @@
 import React from "react";
-import "./home.css";
+import "./Home.css";
 import Contacts from "../Contacts/Contacts";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
@@ -12,22 +12,24 @@ const Home = ({ user }) => {
 
   const handleLogout = async () => {
     await post(`${BASE_URL}/auth/logout`);
-    localStorage.setItem("isUserLoggedIn",false)
+    localStorage.setItem("isUserLoggedIn", false);
     navigate("/login");
-  };
+  };  
 
   return (
-    <div className="home">
-      <h1>Welcome, {user?.username}!</h1>
-      <button className="logout-btn" onClick={handleLogout}>
-        {loading ? (
-          <div className="loader">
-            <div className="spinner"></div>
-          </div>
-        ) : (
-          "Logout"
-        )}
-      </button>
+    <div>
+      <div className="home">
+        <h1>Welcome, {user?.username}!</h1>
+        <button className="logout-btn" onClick={handleLogout}>
+          {loading ? (
+            <div className="loader">
+              <div className="spinner"></div>
+            </div>
+          ) : (
+            "Logout"
+          )}
+        </button>
+      </div>
       <div className="contacts-section">
         <Contacts user={user} />
         {params?.id && <Outlet />}
