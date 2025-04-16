@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 const server = http.createServer(app);
-const allowedOrigins = ["http://localhost:3000", "http://client:3000","http://44.202.238.36"];
+const allowedOrigins = ["http://localhost:3000", "http://client:3000","http://44.202.238.36:3000"];
 const corsOptions = {
   origin: allowedOrigins,
   methods: ["GET", "POST"],
