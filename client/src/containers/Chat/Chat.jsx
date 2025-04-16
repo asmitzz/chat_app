@@ -7,13 +7,13 @@ import "../../index.css";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
 
-const socket = io(BASE_URL);
+const socket = io('http://localhost:8000');
 
 const Chat = ({ user }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [typing, setTyping] = useState(false);
-  const { data: history, get,loading } = useApi();
+  const { data: history, get, loading } = useApi();
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
@@ -26,9 +26,14 @@ const Chat = ({ user }) => {
 
   useEffect(() => {
     if (params?.id) {
-      setMessages([])
+      setMessages([]);
       fetchMessages();
     }
+
+    socket.on('connect', () => {
+      console.log('Connected to socket.io server');
+      socket.emit('pingTest', 'Hello from client!');
+    });
 
     socket.on("receive_message", (newMessage) => {
       if (
@@ -48,10 +53,10 @@ const Chat = ({ user }) => {
       }
     });
 
-    return ()=>{
-      socket.off("receive_message")
-      socket.off("is_typing")
-    }
+    return () => {
+      socket.off("receive_message");
+      socket.off("is_typing");
+    };
   }, [params]);
 
   useEffect(() => {
@@ -102,9 +107,11 @@ const Chat = ({ user }) => {
         <h2>Chat with {history?.user?.username}</h2>
       </div>
       <div className="messages">
-        {loading && <div className="loader">
-              <div className="spinner"></div>
-            </div>}
+        {loading && (
+          <div className="loader">
+            <div className="spinner"></div>
+          </div>
+        )}
         {[...(history?.messages || []), ...messages].map((msg, idx) => (
           <div
             key={idx}

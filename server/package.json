@@ -22,7 +22,9 @@
     "pg": "^8.14.1",
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.2",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "socket.io-adapter": "^2.5.5",
+    "sticky-session": "^1.1.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",

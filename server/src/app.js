@@ -21,7 +21,7 @@ const corsOptions = {
 };
 
 const io = socketIo(server, {
-  cors: corsOptions,
+  cors: corsOptions
 });
 
 app.use(cors(corsOptions));

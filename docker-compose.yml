@@ -2,8 +2,20 @@ services:
   server:
     build: ./server
     container_name: server
-    ports:
-      - "8000:8000"
+    labels:
+      - "traefik.enable=true"
+     
+      # Router for /v1/auth
+      - "traefik.http.routers.auth.rule=PathPrefix(`/v1/auth`)"
+      - "traefik.http.routers.auth.entrypoints=web"
+      - "traefik.http.routers.auth.middlewares=auth-stripprefix"
+      - "traefik.http.routers.auth.service=auth-service"  # <<< important: name of your service below
+
+      # Middleware to strip the prefix before passing to app
+      - "traefik.http.middlewares.auth-stripprefix.stripprefix.prefixes=/v1/auth"
+
+      # Define the actual backend service (your Node.js app)
+      - "traefik.http.services.auth-service.loadbalancer.server.port=8000"
     depends_on:
       - postgres
     environment:
@@ -12,6 +24,8 @@ services:
     volumes:
       - ./server:/app
     working_dir: /app
+    ports:
+      - "8000:8000"
     command: >
       sh -c "cd src && npx sequelize db:migrate && cd .. && pm2-runtime ecosystem.config.js"
     env_file:
@@ -38,6 +52,19 @@ services:
       - pg_data:/var/lib/postgresql/data
     env_file:
       - .env
+
+  traefik:
+    image: traefik:v2.10 
+    container_name: traefik
+    command:
+      - "--api.insecure=true"  # Enable Traefik dashboard (for debugging)
+      - "--providers.docker=true"  # Use Docker as the provider
+      - "--entrypoints.web.address=:80"  # Expose HTTP on port 80
+    ports:
+      - "80:80"  # HTTP port
+      - "8080:8080"  # Dashboard for monitoring Traefik (optional)
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"  # Allow Traefik to access Docker socket for container discovery
 
 volumes:
   pg_data:

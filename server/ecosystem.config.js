@@ -5,8 +5,8 @@ module.exports = {
         script: './src/app.js', 
         // exec_mode: 'fork', 
         // If you want to use all available CPU cores (production-ready)
-        exec_mode: 'cluster',
-        instances: 2,
+        exec_mode: 'fork',
+        instances: 1,
         env: {
           NODE_ENV: 'development',
         },
