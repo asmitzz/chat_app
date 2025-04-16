@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
-import { BASE_URL } from "../../constants";
+import { BASE_URL,BASE_WEBSOCKET_URL } from "../../constants";
 import "./Chat.css";
 import "../../index.css";
 
 import { useParams } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
 
-const socket = io('http://localhost:8000');
+const socket = io(BASE_WEBSOCKET_URL);
 
 const Chat = ({ user }) => {
   const [messages, setMessages] = useState([]);
