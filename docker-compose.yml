@@ -13,9 +13,9 @@ services:
       - ./server:/app
     working_dir: /app
     command: >
-      sh -c "cd src && npx sequelize db:migrate && cd .. && yarn start"
+      sh -c "cd src && npx sequelize db:migrate && cd .. && pm2-runtime ecosystem.config.js"
     env_file:
-      - .env  
+      - .env
 
   client:
     build: ./client
