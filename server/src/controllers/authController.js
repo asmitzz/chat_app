@@ -2,11 +2,15 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const { Op, Sequelize } = require("sequelize");
+const { logger } = require("../config/logger");
 
 exports.authenticate = async (req, res) => {
-  const user = await User.findOne({ where: { id: req.user?.id}, attributes:['id','username'] });
+  const user = await User.findOne({
+    where: { id: req.user?.id },
+    attributes: ["id", "username"],
+  });
   res.json({ message: "User authenticated", user });
-}
+};
 
 exports.register = async (req, res) => {
   try {
@@ -22,6 +26,7 @@ exports.register = async (req, res) => {
     const user = await User.create({ username, password: hashedPassword });
     delete user.password;
 
+    logger.info("User registered successfully", user);
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -44,33 +49,33 @@ exports.login = async (req, res) => {
     });
 
     res.cookie("token", token, {
-      httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     const userWithoutPassword = await User.findOne({
       where: { username },
       attributes: ["id", "username"],
     });
+    logger.info("User logged in successfully", userWithoutPassword.id);
 
     res.json({
       user: userWithoutPassword,
       message: "User logged in successfully",
     });
   } catch (error) {
-    console.log({ error });
-
+    logger.error(error?.message);
     res.status(500).json({ message: error.message });
   }
 };
 
-
 exports.logout = async (req, res) => {
-  res.clearCookie('token'); 
-  res.send('Logged out successfully!');
-}
+  logger.info("User logged out successfully");
+  res.clearCookie("token");
+  res.send("Logged out successfully!");
+};
 
 exports.contacts = async (req, res) => {
   try {
@@ -81,7 +86,7 @@ exports.contacts = async (req, res) => {
             OR ("senderId" = "User".id AND "receiverId" = ${userId})
             ORDER BY "createdAt" DESC 
             LIMIT 1
-          )`
+          )`;
 
     const contacts = await User.findAll({
       where: {
@@ -102,10 +107,7 @@ exports.contacts = async (req, res) => {
           )`),
           "last_message",
         ],
-        [
-          Sequelize.literal(queryToGetLastMessageTime),
-          "last_message_time",
-        ],
+        [Sequelize.literal(queryToGetLastMessageTime), "last_message_time"],
       ],
       order: [
         [
@@ -116,8 +118,9 @@ exports.contacts = async (req, res) => {
         ],
       ],
     });
+    logger.info("Contacts fetched successfully");
 
-    res.json({ contacts, message: "User logged in successfully" });
+    res.json({ contacts, message: "Contacts fetched successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
