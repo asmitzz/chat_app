@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ where: { username } });
 
     if (!user) {
-      logger.error("Invalid credentials", user.id);
+      logger.error("Invalid credentials");
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
